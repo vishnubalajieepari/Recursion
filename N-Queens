@@ -1,0 +1,36 @@
+//N-queens solution using hashing method
+void solve(int col,vector<string>&board,vector<vector<string>>&ve,vector<int>&left,vector<int>&lower,vector<int>&upper,int n)
+    {
+        if(col==n)
+        {
+            ve.push_back(board);
+            return;
+        }
+        for(int row=0;row<n;row++)
+        {
+            if(left[row]==0&&lower[row+col]==0&&upper[n-1+col-row]==0)//logic for leftrow,upper and lower diagonals if there is no queen then insert the queen
+            {
+                board[row][col]='Q';
+                left[row]=1;
+                lower[row+col]=1;
+                upper[n-1+col-row]=1;
+                solve(col+1,board,ve,left,lower,upper,n);
+                board[row][col]='.';//after returning from recursion remove the queen and make the positions of leftrow, upper and lower diagonals as 0s
+                left[row]=0;
+                lower[row+col]=0;
+                upper[n-1+col-row]=0;
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string>board(n);
+        vector<vector<string>>ve;
+        string s(n,'.');
+        for(int i=0;i<n;i++)
+        {
+            board[i]=s;
+        }
+        vector<int>left(n,0),lower(2*n-1,0),upper(2*n-1,0);//vectors of respective sizes for traversing left,upper and lower diagonals
+        solve(0,board,ve,left,lower,upper,n);
+        return ve;
+    }
