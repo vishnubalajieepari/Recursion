@@ -1,0 +1,33 @@
+vector<vector<string>>partition(string s) {
+        vector<string>ans;
+        vector<vector<string>>ve; // to store the resulting double vector of strings
+        solve(0,s,ans,ve);
+        return ve;
+    }
+    // function to get the required vector
+    void solve(int index,string s,vector<string>&ans,vector<vector<string>>&ve)
+    {
+        if(index==s.size())         // when the index reaches size then add vector in the resultant vector
+        {
+            ve.push_back(ans);
+            return;
+        }
+        for(int i=index;i<s.size();i++) // We have to iterative from start to end of the string where we need to consider each index 
+        {
+            if(ispalin(s,index,i))       // After partition check whether it is palindrome or not 
+            {
+                ans.push_back(s.substr(index,i-index+1)); // if it is palindrome then add the string to the vector
+                solve(i+1,s,ans,ve);                       // recursion call for next index
+                ans.pop_back();                           // After completion then we have to go back and remove the strings in the vector
+            }
+        }
+    }
+    bool ispalin(string s,int i,int j)               // function to check for the palindrome
+    {
+        while(i<=j)
+        {
+            if(s[i++]!=s[j--])
+                return false;
+        }
+        return true;
+    }
