@@ -1,0 +1,22 @@
+string getPermutation(int n, int k) {
+        string ss="";
+        vector<int>ve;
+        int f=1;
+        for(int i=1;i<n;i++)
+        {
+            f*=i;             // we have to take (n-1) factorial
+            ve.push_back(i);
+        }
+        ve.push_back(n);
+        k--;             // to get (k-1)th permutations in n! permutations
+        while(true)
+        {
+            ss+=to_string(ve[k/f]);  // every time we are adding the k/f th index element to the string
+            ve.erase(ve.begin()+k/f);// After adding we have to remove from the vector
+            if(!ve.size())
+                break;
+            k%=f;                    // reducing k to k%f since the n decreases
+            f/=ve.size();            // reducing n factorial to n-1 factorial we are dividing with vector's size
+        }
+        return ss;
+    }
